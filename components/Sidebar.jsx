@@ -25,7 +25,7 @@ import Image from "next/image";
 
 const Sidebar = ({ expand, setExpand }) => {
   const { openSignIn } = useClerk();
-  const { user } = useAppContext();
+  const { user, chats, createNewChat } = useAppContext();
   const [openMenu, setOpenMenu] = useState({ id: 0, open: false });
 
   return (
@@ -91,6 +91,7 @@ const Sidebar = ({ expand, setExpand }) => {
           7. New Chat Button
         ======================*/}
         <button
+          onClick={createNewChat}
           className={`mt-8 flex items-center justify-center cursor-pointer
         ${
           expand
@@ -123,7 +124,15 @@ const Sidebar = ({ expand, setExpand }) => {
           }`}
         >
           <p className="my-1">Recents</p>
-          <ChatLabel openMenu={openMenu} setOpenMenu={setOpenMenu} />
+          {chats.map((chat, index) => (
+            <ChatLabel
+              key={index}
+              name={chat.name}
+              id={chat._id}
+              openMenu={openMenu}
+              setOpenMenu={setOpenMenu}
+            />
+          ))}
         </div>
       </div>
 

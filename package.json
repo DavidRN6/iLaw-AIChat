@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/nextjs": "^6.31.10",
     "axios": "^1.11.0",
+    "llama-cloud-services": "^0.3.5",
+    "llamaindex": "^0.11.29",
     "mongoose": "^8.18.1",
     "next": "15.5.2",
     "openai": "^5.20.0",
