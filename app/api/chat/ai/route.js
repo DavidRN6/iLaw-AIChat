@@ -1,73 +1,50 @@
-// // app/api/chat/ai/route.js
-// import Chat from "@/models/Chat";
-// import { getAuth } from "@clerk/nextjs/server";
-// import { NextResponse } from "next/server";
-// import connectDB from "@/config/db";
-// import { LlamaCloudApiClient } from "llama-cloud-services";
+import { NextResponse } from "next/server";
+import axios from "axios";
 
-// // نعمل client واحد بس
-// const client = new LlamaCloudApiClient({
-//   token: process.env.LLAMA_API_KEY,
-//   baseUrl: process.env.LLAMA_ENDPOINT_URL, // مهم علشان تستخدم الـ pipeline اللي في Llama Cloud
-// });
+export async function POST(req) {
+  try {
+    const body = await req.json();
+    const { messages } = body;
 
-// export async function POST(req) {
-//   try {
-//     const { userId } = getAuth(req);
-//     if (!userId) {
-//       return NextResponse.json(
-//         { success: false, message: "User not authenticated" },
-//         { status: 401 }
-//       );
-//     }
+    if (!messages || !Array.isArray(messages)) {
+      return NextResponse.json({ error: "Invalid messages" }, { status: 400 });
+    }
 
-//     const { chatId, prompt } = await req.json();
-//     if (!prompt || !chatId) {
-//       return NextResponse.json(
-//         { success: false, message: "chatId and prompt are required" },
-//         { status: 400 }
-//       );
-//     }
+    const response = await axios.post(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        model: "mistralai/mistral-7b-instruct:free", // تقدر تغيّر الموديل هنا
+        messages: [
+          {
+            role: "system",
+            content: "أنت مساعد قانوني ذكي تساعد المستخدم في الأمور القانونية.",
+          },
+          ...messages,
+        ],
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://i-law-ai-chat.vercel.app",
+        },
+      }
+    );
 
-//     // الاتصال بالـ DB
-//     await connectDB();
-//     const chatData = await Chat.findOne({ _id: chatId, userId });
-//     if (!chatData) {
-//       return NextResponse.json(
-//         { success: false, message: "Chat not found" },
-//         { status: 404 }
-//       );
-//     }
+    const aiMessage = response.data.choices[0].message;
 
-//     // إضافة رسالة المستخدم
-//     const userPrompt = {
-//       role: "user",
-//       content: prompt,
-//       timestamp: Date.now(),
-//     };
-//     chatData.messages.push(userPrompt);
-
-//     // استدعاء Llama Cloud
-//     const response = await client.chat.complete({
-//       messages: [{ role: "user", content: prompt }],
-//     });
-
-//     const assistantMessage = {
-//       role: "assistant",
-//       content:
-//         response.output?.[0]?.content?.[0]?.text || "No response from AI",
-//       timestamp: Date.now(),
-//     };
-
-//     chatData.messages.push(assistantMessage);
-//     await chatData.save();
-
-//     return NextResponse.json({ success: true, data: assistantMessage });
-//   } catch (error) {
-//     console.error("Llama Cloud error:", error);
-//     return NextResponse.json(
-//       { success: false, error: error.message },
-//       { status: 500 }
-//     );
-//   }
-// }
+    return NextResponse.json({
+      message: {
+        role: aiMessage.role || "assistant",
+        content: aiMessage.content,
+      },
+    });
+  } catch (err) {
+    console.error("OpenRouter API Error:", err.response?.data || err.message);
+    return NextResponse.json(
+      { error: "حدث خطأ أثناء الاتصال بـ OpenRouter" },
+      { status: 500 }
+    );
+  }
+}

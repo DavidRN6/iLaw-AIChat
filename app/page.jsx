@@ -82,7 +82,15 @@ export default function Home() {
                 {selectedChat.name}
               </p>
               {messages.map((msg, index) => (
-                <Message role={msg.role} content={msg.content} />
+                <Message
+                  key={msg._id || index}
+                  role={msg.role}
+                  content={
+                    typeof msg.content === "string"
+                      ? msg.content
+                      : JSON.stringify(msg.content)
+                  }
+                />
               ))}
               {isLoading && (
                 <div className="flex gap-4 max-w-3xl w-full py-3">

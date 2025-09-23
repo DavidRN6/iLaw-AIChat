@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { GoLaw } from "react-icons/go";
 
 const PromptBox = ({ isLoading, setIsLoading }) => {
   const [prompt, setPrompt] = useState("");
@@ -55,8 +56,7 @@ const PromptBox = ({ isLoading, setIsLoading }) => {
       }));
 
       const { data } = await axios.post("/api/chat/ai", {
-        chatId: selectedChat._id,
-        prompt,
+        messages: [...selectedChat.messages, userPrompt],
       });
 
       if (data.success) {
@@ -132,28 +132,12 @@ const PromptBox = ({ isLoading, setIsLoading }) => {
             className="flex items-center gap-2 text-xs border border-gray-300/40
           px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition"
           >
-            <Image
-              className="h-5"
-              src={assets.deepthink_icon}
-              alt="deepthink_icon"
-            />
-            DeepThink (R1)
-          </p>
-          <p
-            className="flex items-center gap-2 text-xs border border-gray-300/40
-          px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition"
-          >
-            <Image className="h-5" src={assets.search_icon} alt="search_icon" />
-            Search
+            <GoLaw className="text-base" />
+            Legal Research
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <Image
-            className="w-4 cursor-pointer"
-            src={assets.pin_icon}
-            alt="pin_icon"
-          />
           <button
             className={`${
               prompt ? "bg-primary" : "bg-[#71717a]"
