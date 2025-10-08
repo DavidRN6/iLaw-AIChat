@@ -22,6 +22,8 @@ import { useAppContext } from "../context/AppContext";
 import ChatLabel from "./ChatLabel";
 import { useState } from "react";
 import Image from "next/image";
+import { CgMenuLeftAlt } from "react-icons/cg";
+import { TbMessageCirclePlus } from "react-icons/tb";
 
 const Sidebar = ({ expand, setExpand }) => {
   const { openSignIn } = useClerk();
@@ -30,7 +32,7 @@ const Sidebar = ({ expand, setExpand }) => {
 
   return (
     <div
-      className={`flex flex-col justify-between bg-[#212327] pt-7 transition-all z-50 max-md:absolute max-md:h-screen ${
+      className={`flex flex-col justify-between bg-primary pt-7 transition-all z-50 max-md:absolute max-md:h-screen ${
         expand ? "p-4 w-64" : "md:w-20 w-0 max-md:overflow-hidden"
       }`}
     >
@@ -45,7 +47,7 @@ const Sidebar = ({ expand, setExpand }) => {
           ============*/}
           {expand ? (
             <div className="flex items-center gap-3">
-              <h1 className="text-[#ABB2BD] text-2xl font-bold">
+              <h1 className="text-secondary text-2xl font-bold">
                 iLaw AI Chat
               </h1>
             </div>
@@ -59,15 +61,14 @@ const Sidebar = ({ expand, setExpand }) => {
           <div
             onClick={() => setExpand(!expand)}
             className="group relative flex items-center cursor-pointer justify-center
-            hover:bg-gray-500/20 transition-all duration-300 h-9 w-9 aspect-square rounded-lg"
+            transition-all duration-300 h-9 w-9 aspect-square rounded-lg"
           >
             {/*===================
               4. Icon for mobile
             ======================*/}
-            <Image
-              src={assets.menu_icon}
+            <CgMenuLeftAlt
               alt="menu_icon"
-              className="md:hidden"
+              className="md:hidden rotate-180 text-secondary text-4xl"
             />
             {/*====================
               5. Icon for desktop
@@ -81,7 +82,7 @@ const Sidebar = ({ expand, setExpand }) => {
             {/*===========
               6. Tooltip
             ==============*/}
-            <span className="absolute left-12 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+            <span className="absolute left-12 whitespace-nowrap bg-secondary text-primary text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
               {expand ? "Close Sidebar" : "Open Sidebar"}
             </span>
           </div>
@@ -95,31 +96,30 @@ const Sidebar = ({ expand, setExpand }) => {
           className={`mt-8 flex items-center justify-center cursor-pointer
         ${
           expand
-            ? "bg-primary hover:opacity-90 rounded-2xl gap-2 p-2.5 w-max"
-            : "group relative h-9 w-9 mx-auto hover:bg-gray-500/30 rounded-lg"
+            ? "bg-secondary hover:opacity-90 rounded-2xl gap-2 p-2.5 w-max"
+            : "group relative h-9 w-9 mx-auto  rounded-lg"
         }`}
         >
-          <Image
-            className={expand ? "w-6" : "w-7"}
-            src={expand ? assets.chat_icon : assets.chat_icon_dull}
+          <TbMessageCirclePlus
+            className={expand ? "text-xl" : "text-2xl text-white/60"}
             alt="chat_icon"
           />
           <div
             className="absolute w-max -top-12 -right-12 opacity-0 group-hover:opacity-100
-          transition bg-black text-white text-sm px-3 py-2 rounded-lg shadow-lg
+          transition bg-secondary text-sm px-3 py-2 rounded-lg shadow-lg
           pointer-events-none"
           >
             New Chat
-            <div className="w-3 h-3 absolute bg-black rotate-45 left-4 -bottom-1.5"></div>
+            <div className="w-3 h-3 absolute bg-secondary rotate-45 left-4 -bottom-1.5"></div>
           </div>
-          {expand && <p className="text-white font-medium">New Chat</p>}
+          {expand && <p className="text-primary font-medium">New Chat</p>}
         </button>
 
         {/*===============
           8. Chat Label
         ==================*/}
         <div
-          className={`mt-8 text-white/25 text-sm ${
+          className={`mt-8 text-secondary text-sm ${
             expand ? "block" : "hidden"
           }`}
         >
@@ -143,8 +143,8 @@ const Sidebar = ({ expand, setExpand }) => {
       <div
         onClick={user ? null : openSignIn}
         className={`flex items-center ${
-          expand ? "hover:bg-white/10 rounded-lg" : "justify-center w-full"
-        } gap-3 text-white/60 text-sm p-2 mt-2 cursor-pointer`}
+          expand ? "rounded-lg" : "justify-center w-full"
+        } gap-3 text-secondary text-sm p-2 mt-2 cursor-pointer`}
       >
         {user ? (
           <UserButton />
@@ -152,7 +152,7 @@ const Sidebar = ({ expand, setExpand }) => {
           <Image src={assets.profile_icon} alt="profile_icon" className="w-7" />
         )}
 
-        {expand && <span>My Profile</span>}
+        {expand && <span className="text-secondary">My Profile</span>}
       </div>
     </div>
   );

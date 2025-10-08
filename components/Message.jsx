@@ -23,8 +23,8 @@ const Message = ({ role, content }) => {
         }`}
       >
         <div
-          className={`group relative flex max-w-2xl  py-3 rounded-xl
-            ${role === "user" ? "bg-[#414158] px-5" : "gap-3"}`}
+          className={`group relative flex max-w-2xl py-3 rounded-xl
+            ${role === "user" ? "bg-secondary px-5" : "gap-3"}`}
         >
           <div
             className={`opacity-0 group-hover:opacity-100 absolute ${
@@ -59,23 +59,13 @@ const Message = ({ role, content }) => {
                     alt="regenerate_icon"
                     className="w-4 cursor-pointer"
                   />
-                  <Image
-                    src={assets.like_icon}
-                    alt="like_icon"
-                    className="w-4 cursor-pointer"
-                  />
-                  <Image
-                    src={assets.dislike_icon}
-                    alt="dislike_icon"
-                    className="w-4 cursor-pointer"
-                  />
                 </>
               )}
             </div>
           </div>
 
           {role === "user" ? (
-            <span className="text-white/90">{content}</span>
+            <span className="text-primary">{content}</span>
           ) : (
             <>
               <Image
@@ -83,7 +73,7 @@ const Message = ({ role, content }) => {
                 alt="logo_icon"
                 className="h-9 w-9 p-1 border border-white/15 rounded-full"
               />
-              <div className="space-y-4 w-full overflow-scroll">
+              <div className="space-y-4 w-full overflow-scroll text-primary">
                 <Markdown>{content}</Markdown>
               </div>
             </>

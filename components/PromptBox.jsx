@@ -5,6 +5,7 @@ import { useAppContext } from "@/context/AppContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { GoLaw } from "react-icons/go";
+import { FaArrowUp } from "react-icons/fa6";
 
 const PromptBox = ({ isLoading, setIsLoading }) => {
   const [prompt, setPrompt] = useState("");
@@ -113,12 +114,12 @@ const PromptBox = ({ isLoading, setIsLoading }) => {
       onSubmit={sendPrompt}
       className={`w-full ${
         selectedChat?.messages.length > 0 ? "max-w-3xl" : "max-w-2xl"
-      } bg-[#404045] p-4
+      } bg-primary p-4 text-secondary
     rounded-3xl mt-4 transition-all`}
     >
       <textarea
         onKeyDown={handleKeyDown}
-        className="outline-none w-full resize-none overflow-hidden break-words bg-transparent"
+        className="outline-none w-full resize-none overflow-hidden break-words bg-transparent placeholder:text-secondary/90"
         rows={2}
         placeholder="Message iLaw"
         required
@@ -140,12 +141,11 @@ const PromptBox = ({ isLoading, setIsLoading }) => {
         <div className="flex items-center gap-2">
           <button
             className={`${
-              prompt ? "bg-primary" : "bg-[#71717a]"
+              prompt ? "bg-secondary" : "bg-secondary"
             } rounded-full p-2 cursor-pointer`}
           >
-            <Image
-              className="w-3.5 aspect-square"
-              src={prompt ? assets.arrow_icon : assets.arrow_icon_dull}
+            <FaArrowUp
+              className="aspect-square text-primary text-base"
               alt="arrow_icon"
             />
           </button>

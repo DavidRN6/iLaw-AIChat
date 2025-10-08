@@ -58,7 +58,7 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
   return (
     <div
       onClick={selectChat}
-      className="flex items-center text-white/80 justify-between p-2 hover:bg-white/10
+      className="flex items-center text-third justify-between p-2
     rounded-lg text-sm group cursor-pointer"
     >
       <p className="group-hover:max-w-5/6 truncate">{name}</p>
@@ -67,8 +67,7 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
           e.stopPropagation();
           setOpenMenu({ id: id, open: !openMenu.open });
         }}
-        className="group relative flex items-center justify-center h-6 w-6 aspect-square
-      hover:bg-black/80 rounded-lg"
+        className="group relative flex items-center justify-center h-6 w-6 aspect-square rounded-lg"
       >
         <Image
           src={assets.three_dots}
@@ -80,21 +79,21 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
         <div
           className={`absolute ${
             openMenu.id === id && openMenu.open ? "block" : "hidden"
-          } -right-36 top-6 bg-gray-700 rounded-xl w-max p-2`}
+          } -right-36 top-6 bg-primary rounded-xl w-max p-2`}
         >
           <div
             onClick={renameHandler}
-            className="flex items-center gap-3 hover:bg-white/10 px-3 py-2 rounded-lg"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg"
           >
             <Image src={assets.pencil_icon} alt="pencil_icon" className="w-4" />
-            <p>Rename</p>
+            <p className="text-secondary">Rename</p>
           </div>
           <div
             onClick={deleteHandler}
-            className="flex items-center gap-3 hover:bg-white/10 px-3 py-2 rounded-lg"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg"
           >
             <Image src={assets.delete_icon} alt="delete_icon" className="w-4" />
-            <p>Delete</p>
+            <p className="text-secondary">Delete</p>
           </div>
         </div>
       </div>
