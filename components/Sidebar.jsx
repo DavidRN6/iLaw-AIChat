@@ -1,3 +1,4 @@
+"use client";
 /* ======================
   table of contents
 =========================
@@ -8,9 +9,10 @@
   4. Icon for mobile
   5. Icon for desktop
   6. Tooltip
-  7. New Chat Button
-  8. Chat Label
-  9. Profile icon
+  7. Internships Button
+  8. New Chat Button
+  9. Chat Label
+  10. Profile icon
 */
 
 //==============
@@ -20,15 +22,35 @@ import { assets } from "../assets/assets";
 import { useClerk, UserButton } from "@clerk/clerk-react";
 import { useAppContext } from "../context/AppContext";
 import ChatLabel from "./ChatLabel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { CgMenuLeftAlt } from "react-icons/cg";
 import { TbMessageCirclePlus } from "react-icons/tb";
+import toast from "react-hot-toast";
 
 const Sidebar = ({ expand, setExpand }) => {
   const { openSignIn } = useClerk();
   const { user, chats, createNewChat } = useAppContext();
   const [openMenu, setOpenMenu] = useState({ id: 0, open: false });
+  const [isClient, setIsClient] = useState(false);
+
+  // // نتأكد إن الكود يشتغل بعد تحميل الكلاينت فقط
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
+
+  // // أول Render هيكون مطابق للـ SSR
+  // if (!isClient) {
+  //   return (
+  //     <div className="sm:flex items-center justify-center hidden h-screen bg-primary">
+  //       <Image
+  //         src={assets.logo_icon}
+  //         alt="loading"
+  //         className="w-12 animate-pulse"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -88,8 +110,36 @@ const Sidebar = ({ expand, setExpand }) => {
           </div>
         </div>
 
+        {/*=======================
+          7. Internships Button
+        ==========================*/}
+        <button
+          onClick={() => toast("🚀 Coming soon...")}
+          className={`mt-8 flex items-center justify-center cursor-pointer
+        ${
+          expand
+            ? "bg-secondary hover:opacity-90 rounded-2xl gap-2 p-2.5 w-max"
+            : "hidden"
+        }`}
+        >
+          <Image
+            src={assets.internships}
+            className="w-8 text-white"
+            alt="chat_icon"
+          />
+          <div
+            className="absolute w-max -top-12 -right-12 opacity-0 group-hover:opacity-100
+          transition bg-secondary text-sm px-3 py-2 rounded-lg shadow-lg
+          pointer-events-none"
+          >
+            Internships
+            <div className="w-3 h-3 absolute bg-secondary rotate-45 left-4 -bottom-1.5"></div>
+          </div>
+          {expand && <p className="text-primary font-medium">Internships</p>}
+        </button>
+
         {/*===================
-          7. New Chat Button
+          8. New Chat Button
         ======================*/}
         <button
           onClick={createNewChat}
@@ -116,7 +166,7 @@ const Sidebar = ({ expand, setExpand }) => {
         </button>
 
         {/*===============
-          8. Chat Label
+          9. Chat Label
         ==================*/}
         <div
           className={`mt-8 text-secondary text-sm ${
@@ -137,9 +187,8 @@ const Sidebar = ({ expand, setExpand }) => {
       </div>
 
       {/*=================
-        9. Profile icon
+        10. Profile icon
       ====================*/}
-
       <div
         onClick={user ? null : openSignIn}
         className={`flex items-center ${

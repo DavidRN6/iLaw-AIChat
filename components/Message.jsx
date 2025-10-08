@@ -4,6 +4,8 @@ import Markdown from "react-markdown";
 import Prism from "prismjs";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { LuCopy, LuPenLine } from "react-icons/lu";
+import { TbReload } from "react-icons/tb";
 
 const Message = ({ role, content }) => {
   useEffect(() => {
@@ -34,30 +36,26 @@ const Message = ({ role, content }) => {
             <div className="flex items-center gap-2 opacity-70">
               {role === "user" ? (
                 <>
-                  <Image
+                  <LuCopy
                     onClick={copyMessage}
-                    src={assets.copy_icon}
                     alt="copy_icon"
-                    className="w-4 cursor-pointer"
+                    className="text-xl text-primary cursor-pointer"
                   />
-                  <Image
-                    src={assets.pencil_icon}
+                  <LuPenLine
                     alt="pencil_icon"
-                    className="w-4 cursor-pointer"
+                    className="text-xl text-primary cursor-pointer"
                   />
                 </>
               ) : (
                 <>
-                  <Image
+                  <LuCopy
                     onClick={copyMessage}
-                    src={assets.copy_icon}
                     alt="copy_icon"
-                    className="w-4 cursor-pointer"
+                    className="text-xl text-primary cursor-pointer"
                   />
-                  <Image
-                    src={assets.regenerate_icon}
+                  <TbReload
                     alt="regenerate_icon"
-                    className="w-4 cursor-pointer"
+                    className="text-xl text-primary cursor-pointer"
                   />
                 </>
               )}
